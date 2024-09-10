@@ -1,7 +1,7 @@
 -- Create users_type table
 CREATE TABLE IF NOT EXISTS users_type
 (
-    user_type_id   INT PRIMARY KEY,
+    user_type_id   SERIAL PRIMARY KEY,
     user_type_name VARCHAR(255) DEFAULT NULL
 );
 
@@ -14,7 +14,7 @@ ON CONFLICT DO NOTHING;
 -- Create users table
 CREATE TABLE IF NOT EXISTS users
 (
-    user_id           INT PRIMARY KEY,
+    user_id           SERIAL PRIMARY KEY,
     email             VARCHAR(255) UNIQUE,
     is_active         BOOLEAN      DEFAULT NULL,
     password          VARCHAR(255) DEFAULT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS users
 -- Create job_company table
 CREATE TABLE IF NOT EXISTS job_company
 (
-    id   INT PRIMARY KEY,
+    id   SERIAL PRIMARY KEY,
     logo VARCHAR(255) DEFAULT NULL,
     name VARCHAR(255) DEFAULT NULL
 );
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS job_company
 -- Create job_location table
 CREATE TABLE IF NOT EXISTS job_location
 (
-    id      INT PRIMARY KEY,
+    id      SERIAL PRIMARY KEY,
     city    VARCHAR(255) DEFAULT NULL,
     country VARCHAR(255) DEFAULT NULL,
     state   VARCHAR(255) DEFAULT NULL
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS job_location
 -- Create job_seeker_profile table
 CREATE TABLE IF NOT EXISTS job_seeker_profile
 (
-    user_account_id    INT PRIMARY KEY REFERENCES users (user_id),
+    user_account_id    SERIAL PRIMARY KEY REFERENCES users (user_id),
     city               VARCHAR(255) DEFAULT NULL,
     country            VARCHAR(255) DEFAULT NULL,
     employment_type    VARCHAR(255) DEFAULT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS job_seeker_profile
 -- Create recruiter_profile table
 CREATE TABLE IF NOT EXISTS recruiter_profile
 (
-    user_account_id INT PRIMARY KEY REFERENCES users (user_id),
+    user_account_id SERIAL PRIMARY KEY REFERENCES users (user_id),
     city            VARCHAR(255) DEFAULT NULL,
     company         VARCHAR(255) DEFAULT NULL,
     country         VARCHAR(255) DEFAULT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS recruiter_profile
 -- Create job_post_activity table
 CREATE TABLE IF NOT EXISTS job_post_activity
 (
-    job_post_id        INT PRIMARY KEY,
+    job_post_id        SERIAL PRIMARY KEY,
     description_of_job VARCHAR(10000) DEFAULT NULL,
     job_title          VARCHAR(255)   DEFAULT NULL,
     job_type           VARCHAR(255)   DEFAULT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS job_post_activity
 -- Create job_seeker_save table
 CREATE TABLE IF NOT EXISTS job_seeker_save
 (
-    id      INT PRIMARY KEY,
+    id      SERIAL PRIMARY KEY,
     job     INT REFERENCES job_post_activity (job_post_id),
     user_id INT REFERENCES job_seeker_profile (user_account_id),
     CONSTRAINT unique_user_job UNIQUE (user_id, job)
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS job_seeker_save
 -- Create job_seeker_apply table
 CREATE TABLE IF NOT EXISTS job_seeker_apply
 (
-    id           INT PRIMARY KEY,
+    id           SERIAL PRIMARY KEY,
     apply_date   TIMESTAMP(6) DEFAULT NULL,
     cover_letter VARCHAR(255) DEFAULT NULL,
     job          INT REFERENCES job_post_activity (job_post_id),
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS job_seeker_apply
 -- Create skills table
 CREATE TABLE IF NOT EXISTS skills
 (
-    id                  INT PRIMARY KEY,
+    id                  SERIAL PRIMARY KEY,
     experience_level    VARCHAR(255) DEFAULT NULL,
     name                VARCHAR(255) DEFAULT NULL,
     years_of_experience VARCHAR(255) DEFAULT NULL,
