@@ -1,6 +1,7 @@
 package com.hosein.jobportal.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +23,9 @@ public class User {
 
     @Column(unique = true)
     private String email;
+
+    @NotEmpty
+    private String password;
 
     private boolean isActive;
 
