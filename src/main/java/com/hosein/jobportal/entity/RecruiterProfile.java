@@ -35,4 +35,8 @@ public class RecruiterProfile {
 
     @Column(nullable = true, length = 64)
     private String profilePhoto;
+
+    public RecruiterProfile(User user) {
+        this.user = user;
+    }
 }
