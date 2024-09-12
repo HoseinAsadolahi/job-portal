@@ -1,8 +1,10 @@
 package com.hosein.jobportal.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -24,7 +26,8 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @NotEmpty
+    @NotBlank(message = "Password can't be blank!")
+    @Length(min = 6, max = 20, message = "Password length must be between 6 and 20!")
     private String password;
 
     private boolean isActive;

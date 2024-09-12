@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link
             th:rel="stylesheet"
@@ -50,6 +50,26 @@
                                 method="post"
                         >
                             <div class="box-body bozero mx2p">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div th:if="${error}" class="alert alert-danger" role="alert">
+                                                <p th:text="${error}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div th:if="${validationErrors}" class="alert alert-danger" role="alert">
+                                                <ul>
+                                                    <li th:each="error : ${validationErrors}" th:text="${error.defaultMessage}"></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
