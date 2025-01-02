@@ -33,7 +33,7 @@ public class WebSecurityConfig {
         http.formLogin(formLogin -> {
             formLogin.loginPage("/login").permitAll().successHandler(customAuthenticationSuccessHandler);
         }).logout(logout -> {
-            logout.logoutUrl("/logout").logoutSuccessUrl("/").;
+            logout.logoutUrl("/logout").logoutSuccessUrl("/");
         }).cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable());
         return http.build();
     }
