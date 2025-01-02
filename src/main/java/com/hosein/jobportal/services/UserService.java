@@ -9,6 +9,11 @@ import com.hosein.jobportal.repository.RecruiterProfileRepository;
 import com.hosein.jobportal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +44,19 @@ public class UserService {
             jspRepository.save(new JobSeekerProfile(savedUser));
         }
         return savedUser;
+    }
+
+    public Object getCurrentUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            User user = userRepository.findByEmail(authentication.getName())
+                    .orElseThrow(() -> new UsernameNotFoundException("Could not found user"));
+            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Job Seeker"))) {
+                return jspRepository.findById(user.getUserId()).orElse(new JobSeekerProfile(user));
+            } else {
+                return rpRepository.findById(user.getUserId()).orElse(new RecruiterProfile(user));
+            }
+        }
+        return null;
     }
 }

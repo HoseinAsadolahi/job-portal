@@ -42,9 +42,4 @@ public class UserController {
         }
         return "redirect:/dashboard";
     }
-
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        return "dashboard";
-    }
 }
