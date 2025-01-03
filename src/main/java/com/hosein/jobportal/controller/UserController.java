@@ -35,7 +35,6 @@ public class UserController {
 
     @PostMapping("/register/new")
     public String register(@Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes redirectAttributes) {
-        System.out.println(user.getPassword());
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("validationErrors", result.getAllErrors());
             return "redirect:/register";

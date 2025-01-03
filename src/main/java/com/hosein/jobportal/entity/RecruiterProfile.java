@@ -39,4 +39,12 @@ public class RecruiterProfile {
     public RecruiterProfile(User user) {
         this.user = user;
     }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (profilePhoto == null) {
+            return null;
+        }
+        return "photos/recruiter/" + userAccountId + "/" + profilePhoto;
+    }
 }
