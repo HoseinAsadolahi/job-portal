@@ -27,7 +27,6 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password can't be blank!")
-    @Length(min = 6, max = 20, message = "Password length must be between 6 and 20!")
     private String password;
 
     private boolean isActive;
