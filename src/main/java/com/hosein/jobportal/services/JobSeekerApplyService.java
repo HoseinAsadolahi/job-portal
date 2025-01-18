@@ -21,4 +21,8 @@ public class JobSeekerApplyService {
     public List<JobSeekerApply> getJobCandidates(JobPostActivity job) {
         return jar.findByJob(job);
     }
+
+    public void addNew(JobSeekerApply jobSeekerApply) {
+        jar.save(jobSeekerApply);
+    }
 }
