@@ -1,12 +1,14 @@
 package com.hosein.jobportal.controller;
 
 import com.hosein.jobportal.entity.JobPostActivity;
+import com.hosein.jobportal.entity.RecruiterProfile;
 import com.hosein.jobportal.entity.User;
 import com.hosein.jobportal.services.JobPostActivityService;
 import com.hosein.jobportal.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,10 @@ public class JobPostActivityController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             model.addAttribute("username", authentication.getName());
+            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))) {
+                model.addAttribute("jobPost", jobPostActivityService.
+                        getRecruiterJobs(((RecruiterProfile) currentUserProfile).getUserAccountId()));
+            }
         }
         return "dashboard";
     }
