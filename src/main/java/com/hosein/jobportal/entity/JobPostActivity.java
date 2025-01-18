@@ -33,7 +33,10 @@ public class JobPostActivity {
     private JobCompany jobCompanyId;
 
     @Transient
-    private boolean isActive;
+    private Boolean isActive;
+
+    @Transient
+    private Boolean isSaved;
 
     @Length(max = 1000)
     private String descriptionOfJob;
