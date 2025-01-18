@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Date;
@@ -24,7 +25,7 @@ public class JobPostActivityController {
     private final UserService userService;
     private final JobPostActivityService jobPostActivityService;
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard/", "/dashboard"})
     public String searchJobs(Model model) {
         Object currentUserProfile = userService.getCurrentUserProfile();
         model.addAttribute("user", currentUserProfile);
@@ -55,6 +56,14 @@ public class JobPostActivityController {
         jobPostActivity.setPostedDate(new Date());
         model.addAttribute("jobPostActivity", jobPostActivity);
         JobPostActivity saved = jobPostActivityService.addNew(jobPostActivity);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/";
+    }
+
+    @GetMapping("dashboard/edit/{id}")
+    public String edit(@PathVariable("id") int id, Model model) {
+        JobPostActivity jp = jobPostActivityService.getOne(id);
+        model.addAttribute("jobPostActivity", jp);
+        model.addAttribute("user", userService.getCurrentUserProfile());
+        return "add-jobs";
     }
 }
