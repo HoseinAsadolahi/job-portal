@@ -5,21 +5,26 @@ import com.hosein.jobportal.entity.Skill;
 import com.hosein.jobportal.entity.User;
 import com.hosein.jobportal.repository.UserRepository;
 import com.hosein.jobportal.services.JobSeekerProfileService;
+import com.hosein.jobportal.util.FileDownloadUtil;
 import com.hosein.jobportal.util.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -93,5 +98,33 @@ public class JobSeekerProfileController {
         }
         JobSeekerProfile saved = js.addNew(jsp);
         return "redirect:/dashboard/";
+    }
+
+    @GetMapping("/{id}")
+    public String candidateProfile(@PathVariable("id") int id, Model model) {
+        JobSeekerProfile profile = js.getOne(id).orElseThrow(() ->
+                new RuntimeException("Job Seeker Profile not found"));
+        model.addAttribute("profile", profile);
+        return "job-seeker-profile";
+    }
+
+    @GetMapping("/downloadResume")
+    public ResponseEntity<?> downloadResume(@RequestParam(value = "fileName") String fileName,
+                                            @RequestParam(value = "userID") String userId) {
+        try {
+            Resource resource = FileDownloadUtil.getFileAsResource("photos/candidate/" +
+                    userId, fileName);
+            String contentType = Files.probeContentType(resource.getFile().toPath());
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+            String header = "attachment; filename=\"" + resource.getFilename() + "\"";
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, header)
+                    .body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body("Error occurred: " + e.getMessage());
+        }
     }
 }
