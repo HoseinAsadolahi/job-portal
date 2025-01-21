@@ -25,4 +25,8 @@ public class JobSeekerApplyService {
     public void addNew(JobSeekerApply jobSeekerApply) {
         jar.save(jobSeekerApply);
     }
+
+    public void deleteAll(JobPostActivity job) {
+        jar.deleteAllByJob(job);
+    }
 }
