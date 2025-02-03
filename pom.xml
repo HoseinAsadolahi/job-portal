@@ -8,7 +8,7 @@
 		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.hosein</groupId>
+	<groupId>se</groupId>
 	<artifactId>job-portal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>job-portal</name>
