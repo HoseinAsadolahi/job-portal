@@ -13,13 +13,14 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class JobSeekerSave implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "user_account_id")
     private JobSeekerProfile userId;
 

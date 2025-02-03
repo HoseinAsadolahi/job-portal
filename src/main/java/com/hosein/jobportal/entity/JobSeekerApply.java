@@ -14,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Builder
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"userId", "job"})})
 public class JobSeekerApply implements Serializable {
 
@@ -21,7 +22,7 @@ public class JobSeekerApply implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "user_account_id")
     private JobSeekerProfile userId;
 

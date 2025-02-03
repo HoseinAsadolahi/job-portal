@@ -17,6 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Builder
 public class User {
 
     @Id

@@ -13,6 +13,7 @@ import lombok.*;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class JobLocation {
 
     @Id
